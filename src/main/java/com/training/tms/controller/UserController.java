@@ -1,6 +1,7 @@
 package com.training.tms.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/{id}")
-	public User getUser(@PathVariable (value="id") int userId) {
-		return userRepository.getOne(userId);
+	public Optional<User> getUser(@PathVariable("id") Integer userId) {		
+		return userRepository.findById(userId);
 	}
 }
