@@ -15,46 +15,84 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userID;
 	
-	@Column(name = "first_name")
-	private String firstName;
-	@Column(name = "last_name")
-	private String lastName;
-	@Column(name = "email_id")
-	private String emailId;
+	private String password;		
 	
-	 public User() {
+	private String userName;		
+	
+	private String firstname;	
+	
+	private String lastname;	
+	
+	private String emailid;
+	
+	public User() {
 		 
 	 }
-	public User(String firstName, String lastName, String emailId) {
+
+
+	public User(int userID, String password, String userName, String firstname, String lastname, String emailid) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailId = emailId;
+		this.userID = userID;
+		this.password = password;
+		this.userName = userName;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.emailid = emailid;
 	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
 	public int getUserID() {
 		return userID;
 	}
+
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	public String getFirstName() {
-		return firstName;
+
+	public String getPassword() {
+		return password;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public String getLastName() {
-		return lastName;
+
+	
+
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-	public String getEmailId() {
-		return emailId;
+
+	public String getLastname() {
+		return lastname;
 	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmailid() {
+		return emailid;
+	}
+
+	public void setEmailid(String emailid) {
+		this.emailid = emailid;
 	}
 	
 	
-}
+	
+}	
