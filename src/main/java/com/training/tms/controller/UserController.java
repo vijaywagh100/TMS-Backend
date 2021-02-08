@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.tms.model.AuthRequest;
+import com.training.tms.model.TokenBean;
 import com.training.tms.model.User;
 import com.training.tms.repository.UserRepository;
 import com.training.tms.util.JWTUtil;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserController {
 
@@ -32,8 +35,9 @@ public class UserController {
 	private JWTUtil jWTUtil;
 	
 	@PostMapping("/authenticate")
-	public String authenticate_GenerateToken(@RequestBody AuthRequest authRequest ) throws Exception {
+	public TokenBean authenticate_GenerateToken(@RequestBody AuthRequest authRequest ) throws Exception {
 				
+		System.out.println("Request received TMS-backend:"+authRequest.getUserName()+" & "+authRequest.getPassWord());
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassWord()));
@@ -41,7 +45,23 @@ public class UserController {
 			// TODO Auto-generated catch block
 			throw new Exception("Invalid username/password");
 			}
-		return jWTUtil.generateToken(authRequest.getUserName());
+		 
+				String token=jWTUtil.generateToken(authRequest.getUserName());
+				System.out.println("Token created:"+token);
+				return new TokenBean("token",token);
+				
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/register")
+	public User registerUser(@RequestBody AuthRequest user) {
+		System.out.println("Register user TMS-backend:"+user.getUserName()+" & "+user.getPassWord());
+		User _user = new User();
+		_user.setUserName(user.getUserName());
+		_user.setPassword(user.getPassWord());
+		_user.setEmailid(user.getEmail());
+		User savedUser = userRepository.save(_user);
+		return savedUser;
 	}
 	
 	@GetMapping("/users")
